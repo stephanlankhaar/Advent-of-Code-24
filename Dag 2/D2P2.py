@@ -12,11 +12,9 @@ def main():
     with open("input.txt") as file:
         for row in file:
             report_list = list(map(int, row.split()))
-            print(report_list)
             for index in range(len(report_list)):
                 tmp_item_list = report_list[index]
                 report_list.pop(index)
-                print(report_list)
                 if safe_report(report_list):
                     safe_counter +=1
                     break
