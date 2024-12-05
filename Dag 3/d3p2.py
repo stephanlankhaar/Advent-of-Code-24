@@ -3,24 +3,18 @@ import re
 results = 0
 with open("input.txt") as file:
     for row in file:
-        multiply = re.findall('mul\([0-9]{1,3},[0-9]{1,3}\)|do\(\)|don\'t\(\)', row)
-        to_multiply=[]
+        multiply = re.findall(r"(mul\(\d{1,3},\d{1,3}\)|don't\(\)|do\(\))", row)
         processing = True
         for item in multiply:
-            if item == 'do()':
-                processing = True
             if item == 'don\'t()':
                 processing = False
-            if processing:
-                if item != "do()":
-                    number_1 = re.search(r"(?<=mul\()\d{1,3}",
-                                         item).group()
-                    number_2 = re.search(r",(?<=,)\d{1,3}(?=\))",
-                                         item).group()
-                    number_2 = number_2.replace(",", "")
-
-                    result = int(number_1) * int(number_2)
-                    results += result
-
+            if item == 'do()':
+                processing = True
+            else:
+                if processing and item.startswith('mul'):
+                    if item != "do()":
+                        to_multiply = item.replace('mul(', '').replace(')','')
+                        to_multiply = to_multiply.split(",")
+                        results += int(to_multiply[0]) * int(to_multiply[1])
 
 print(results)
