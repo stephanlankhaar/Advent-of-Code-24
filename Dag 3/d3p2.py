@@ -2,9 +2,9 @@ import re
 
 results = 0
 with open("input.txt") as file:
+    processing = True
     for row in file:
         multiply = re.findall(r"(mul\(\d{1,3},\d{1,3}\)|don't\(\)|do\(\))", row)
-        processing = True
         for item in multiply:
             if item == 'don\'t()':
                 processing = False
